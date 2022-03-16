@@ -1,2 +1,79 @@
-<h1>Admin::Homes#top</h1>
-<p>Find me in app/views/admin/homes/top.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 px-5 mx-auto">
+
+      <h2>予約情報</h2>
+
+      <div class="d-lg-flex">
+        <div class="col-lg-4">
+          <div class="bg-light rounded-lg px-2 pt-2 mr-1">
+            <div>
+              <h4>販売中商品</h4>
+              <!--<= link_to "+ 予約商品を登録する", admin_products_sale_path, class:"ml-md-3 mt-md-2" %>-->
+            </div>
+            <table class="table">
+              <thead>
+                <tr>
+                  <td class="col-6 text-center">商品名</td>
+                  <td class="text-center">金額</td>
+                  <td class="text-center">残り個数</td>
+                </tr>
+              </thead>
+              <tbody>
+                <!--< @products.each do |product| %>-->
+                <tr>
+                  <td class="col-6">・キャラメルバナナチーズケーキ</td>
+                  <!--<td class="col-6"><= product.product_name %></td>-->
+                  <td class="text-center">300</td>
+                  <!--<td class="text-center"><= product.price %></td>-->
+                  <td class="text-center">25</td>
+                  <!--<td class="text-center"><= product.max_quantity %></td>-->
+                </tr>
+                <!--< end %>-->
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <div><%= link_to "+ 予約商品を登録する", admin_products_sale_path, class:"btn border" %></div>
+            <div><%= link_to "過去の予約一覧", admin_orders_index_path, class:"btn border" %></div>
+          </div>
+        </div>
+        <div class="col-lg-7 overflow-auto p-2-2-0-2">
+          <h4><%= @today %>の予約一覧</h4>
+          <table class="table">
+            <thead>
+              <tr>
+                <td class="text-center col-2">予約者名</td>
+                <td class="text-center col-3">商品名</td>
+                <td class="text-center">個数</td>
+                <td class="text-center col-2">予約形態</td>
+                <td class="text-center col-2">来店予定時刻</td>
+                <td class="col-2">備考</td>
+              </tr>
+            </thead>
+            <tbody>
+              <!--< @orders.each do |order| %>-->
+              <tr>
+                <td class="text-center"><%= link_to "山田花子", admin_customers_show_path %></td>
+                <!--<td class="text-center"><= link_to order.customer.name, admin_customers_show_path %></td>-->
+                <td>・キャラメルバナナチーズケーキ</td>
+                <!--<td><= order. %></td>-->
+                <td class="text-center">1</td>
+                <!--<td><= order. %></td>-->
+                <td class="text-center">取り置き</td>
+                <!--<td><= order.order_system %></td>-->
+                <td class="text-center">14:00</td>
+                <!--<td><= order.time %></td>-->
+                <td>クッキーはテイクアウトでお願いします</td>
+                <!--<td><= order.note %></td>-->
+                <!--<= order_status %>-->
+              </tr>
+              <!--< end %>-->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
