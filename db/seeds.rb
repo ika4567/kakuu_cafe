@@ -7,3 +7,5 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 Admin.create(email: 'admin@a', password: '123456')
+Product.create(product_name: 'プレーンマフィン', price: '300', max_quantity: '25', product_status: '1')
+Product.create(product_name: 'テストB', price: '300', max_quantity: '25', product_status: '0')
