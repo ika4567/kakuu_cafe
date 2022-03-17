@@ -22,8 +22,14 @@ class Admin::ProductsController < ApplicationController
 
   def update
     product = Product.find(params[:id])
-    binding.pry
+    # binding.pry
     product.update(product_params)
+    redirect_to admin_products_path
+  end
+  
+  def destroy
+    product = Product.find(product.id)
+    product.destroy
     redirect_to admin_products_path
   end
 
