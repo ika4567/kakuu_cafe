@@ -1,2 +1,28 @@
-<h1>Admin::Products#edit</h1>
-<p>Find me in app/views/admin/products/edit.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 px-5 mx-auto">
+
+      <h2>商品情報編集</h2>
+      <%= form_with model: @product, url: admin_product_path(@product.id), method: :patch, local: true do |f| %>
+        <div class="form-group row">
+          <%= f.label "商品名：", class:"col-form-label col-md-3" %>
+          <%= f.text_field :product_name, class:"form-control col-md-8 mb-md-2" %>
+        </div>
+        <div class="form-group row">
+          <%= f.label "価格：", class:"control-label col-md-3" %>
+          <%= f.text_field :price, class:"form-control col-8 col-md-2 mb-md-2" %><p class="col-1 m-0 py-2">円</p>
+        </div>
+        <div class="form-group row">
+          <%= f.label "最大個数：", class:"control-label col-md-3" %>
+          <%= f.text_field :max_quantity, class:"form-control col-8 col-md-2 mb-md-2" %><p class="col-1 m-0 py-2 mb-2">個</p>
+        </div>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <%= f.submit "変更", class:"btn border" %>
+        </div>
+      </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>
