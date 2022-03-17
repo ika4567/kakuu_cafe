@@ -28,7 +28,7 @@
         <tbody>
           <% @products.each do |product| %>
           <tr>
-            <td class="col-6"><%= product.product_name %></td>
+            <td class="col-6"><%= link_to product.product_name, edit_admin_product_path(product) %></td>
             <td class="text-center"><%= product.price %></td>
             <td class="text-center"><%= product.max_quantity %></td>
             <td class="text-center"><%= product.product_status %></td>
