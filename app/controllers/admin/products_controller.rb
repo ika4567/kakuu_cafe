@@ -17,11 +17,19 @@ class Admin::ProductsController < ApplicationController
   end
 
   def edit
+    @product = Product.find(params[:id])
+  end
+
+  def update
+    product = Product.find(params[:id])
+    binding.pry
+    product.update(product_params)
+    redirect_to admin_products_path
   end
 
   private
   def product_params
-    params.permit(:product_name, :price, :max_quantity)
+    params.require(:product).permit(:product_name, :price, :max_quantity)
   end
 
 end

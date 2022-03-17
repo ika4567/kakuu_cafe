@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :products, only: [:index, :create, :sale, :edit]
+    resources :products, only: [:index, :create, :sale, :edit, :update]
   end
 
     scope module: :public do
