@@ -7,7 +7,6 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 Admin.create(email: 'admin@a', password: '123456')
-Product.create(product_name: 'テストA', price: '300', max_quantity: '25', product_status: '0')
-Product.create(product_name: 'テストB', price: '300', max_quantity: '25', product_status: '1')
-Product.create(product_name: 'わ', price: '300', max_quantity: '25', product_status: '1')
-Product.create(product_name: 'あ', price: '300', max_quantity: '25', product_status: '1')
+Product.create(product_name: 'テストA', price: '300', max_quantity: '25', product_status: 'on_sale')
+Product.create(product_name: 'テストB', price: '300', max_quantity: '25', product_status: 'discontinued')
+Customer.create(name: "山田花子", telephone_number: "09012345678", email: "sample@a", encrypted_password: "123456", is_active: "false")
