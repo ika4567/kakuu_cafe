@@ -1,2 +1,22 @@
-<h1>Public::Customers#show</h1>
-<p>Find me in app/views/public/customers/show.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 px-5 mx-auto">
+
+      <h2>My Page</h2>
+      <div>
+        <div class="row">
+          <p class="col-md-4 text-md-right">名前：</p>
+          <p class="col-md-5"><= current_customer.name %></p>
+        </div>
+        <div class="row">
+          <p class="col-md-4 text-md-right">電話番号：</p>
+          <p class="col-md-5"><= current_customer.telephone_number %></p>
+        </div>
+        <div class="row">
+          <p class="col-md-4 text-md-right">メールアドレス：</p>
+          <p class="col-md-5"><= current_customer.email %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
