@@ -23,16 +23,16 @@ Rails.application.routes.draw do
   end
 
   scope module: :public do
+    resources :orders, only: [:new, :create, :index, :edit, :update]
     get 'orders/note'
-    get 'orders/new'
+    get 'orders/confirm'
     get 'orders/thanks'
-    get 'orders/index'
-    get 'orders/edit'
   end
 
   scope module: :public do
+    resource :customers, only: [:edit, :update]
     get 'customers/my_page' => 'customers#show', as: 'my_page'
-    get 'customers/edit'
+    patch 'customers/cancel'
   end
 
 
