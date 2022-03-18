@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    get 'orders/index'
+    resources :orders, only: [:index]
   end
 
   namespace :admin do
