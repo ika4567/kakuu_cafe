@@ -29,7 +29,7 @@
           </div>
           <div>
             <div><%= link_to "+ 予約商品を登録する", admin_products_sale_path, class:"btn border" %></div>
-            <div><%= link_to "過去の予約一覧", admin_orders_index_path, class:"btn border" %></div>
+            <div><%= link_to "過去の予約一覧", admin_orders_path, class:"btn border" %></div>
           </div>
         </div>
         <div class="col-lg-7 overflow-auto p-2-2-0-2">
@@ -48,7 +48,7 @@
             <tbody>
               <!--< @orders.each do |order| %>-->
               <tr>
-                <td class="text-center"><%= link_to "山田花子", admin_customers_show_path %></td>
+                <td class="text-center"><%= link_to "山田花子", admin_customer_path([:id]) %></td>
                 <!--<td class="text-center"><= link_to order.customer.name, admin_customers_show_path %></td>-->
                 <td>・キャラメルバナナチーズケーキ</td>
                 <!--<td><= order. %></td>-->
