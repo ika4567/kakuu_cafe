@@ -5,12 +5,12 @@
       <h2>Log in</h2>
 
       <%= form_with model: @public, url: session_path(resource_name), local: true do |f| %>
-        <div class="field">
+        <div class="form-group row">
           <!--<= f.label :email %><br />-->
           <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email address", class: "form-control" %>
         </div>
 
-        <div class="field">
+        <div class="form-group row">
           <!--<= f.label :password %><br />-->
           <%= f.password_field :password, autocomplete: "current-password", placeholder: "Password", class: "form-control" %>
         </div>
@@ -22,7 +22,7 @@
           </div>
         <% end %>
 
-        <div class="actions">
+        <div class="form-group row">
           <%= f.submit "Log in", class: "btn btn-lg btn-primary btn-block" %>
         </div>
       <% end %>
