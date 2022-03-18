@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    get 'customers/show'
+    resources :customers, only: [:show]
   end
 
   namespace :admin do
