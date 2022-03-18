@@ -1,2 +1,18 @@
-<h1>Admin::Customers#show</h1>
-<p>Find me in app/views/admin/customers/show.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 px-5 mx-auto">
+
+      <h2>予約者詳細</h2>
+      <div>
+        <p>予約者名：<%= @customer.name %></p>
+      </div>
+      <div>
+        <p>電話番号：<%= @customer.telephone_number %></p>
+      </div>
+      <div>
+        <p>メールアドレス：<%= @customer.email %></p>
+      </div>
+
+    </div>
+  </div>
+</div>
