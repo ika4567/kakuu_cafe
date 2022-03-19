@@ -9,7 +9,7 @@ class Public::CustomersController < ApplicationController
   
   def update
     @customer = Customer.find(current_customer.id)
-    binding.pry
+    # binding.pry
     @customer.update(customer_params)
     redirect_to my_page_path
   end
@@ -17,7 +17,7 @@ class Public::CustomersController < ApplicationController
   def cancel
     @customer = Customer.find(current_customer.id)
     @customer.update(is_active: true)
-    # reset_session
+    reset_session
     redirect_to root_path
   end
   
