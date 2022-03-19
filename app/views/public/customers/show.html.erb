@@ -1,2 +1,72 @@
-<h1>Public::Customers#show</h1>
-<p>Find me in app/views/public/customers/show.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 px-5 mx-auto">
+
+      <h2>My Page</h2>
+      <div class="mb-3">
+        <div class="row">
+          <p class="col-md-4 text-md-right">名前：</p>
+          <p class="col-md-5"><%= current_customer.name %></p>
+        </div>
+        <div class="row">
+          <p class="col-md-4 text-md-right">電話番号：</p>
+          <p class="col-md-5"><%= current_customer.telephone_number %></p>
+        </div>
+        <div class="row">
+          <p class="col-md-4 text-md-right">メールアドレス：</p>
+          <p class="col-md-5"><%= current_customer.email %></p>
+        </div>
+        <div class="row">
+          <%= link_to "登録内容を編集する", edit_customers_path(current_customer), class: "btn btn-success mr-1" %>
+        </div>
+      </div>
+      <div>
+        <h3>予約履歴（最新10件）</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th class="col-2 text-center">予約日時</th>
+              <th class="col-3 text-center">予約商品</th>
+              <th class="col-1 text-center">個数</th>
+              <th class="col-2 text-center">予約形態</th>
+              <th class="col-2 text-center">来店予定時刻<br>(テイクアウトのみ)</th>
+              <th class="col-2">備考</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @orders.each do |order| %>
+            <tr>
+              <td class="col-2 text-center">
+                <%= order.created_at.strftime('%Y/%m/%d %R') %><br>
+                <!--予約した当日中のみ表示させる-->
+                <%= link_to "予約内容を変更", edit_order_path(order) %>
+              </td>
+              <td class="col-3">
+                <ul>
+                <% order.order_details.each do |order_detail| %>
+                  <li>
+                    <%= order_detail.product.product_name %>
+                  </li>
+                <% end %>
+                </ul>
+              </td>
+              <td class="col-1 text-center">
+                <ul>
+                <% order.order_details.each do |order_detail| %>
+                  <li class="list-unstyled">
+                    <%= order_detail.reservation_quantity %>
+                  </li>
+                <% end %>
+                </ul>
+              </td>
+              <td class="col-2 text-center"><%= order.order_system %></td>
+              <td class="col-2 text-center"><%= order.time.strftime('%R') %></td>
+              <td class="col-2"><%= order.note %></td>
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
