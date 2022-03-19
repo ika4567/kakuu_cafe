@@ -16,6 +16,9 @@
           <p class="col-md-4 text-md-right">メールアドレス：</p>
           <p class="col-md-5"><%= current_customer.email %></p>
         </div>
+        <div class="row">
+          <%= link_to "登録内容を編集する", edit_customers_path(current_customer), class: "btn btn-success mr-1" %>
+        </div>
       </div>
       <div>
         <h3>予約履歴（最新10件）</h3>
@@ -33,7 +36,11 @@
           <tbody>
             <% @orders.each do |order| %>
             <tr>
-              <td class="col-2 text-center"><%= order.created_at.strftime('%Y/%m/%d %R') %></td>
+              <td class="col-2 text-center">
+                <%= order.created_at.strftime('%Y/%m/%d %R') %><br>
+                <!--予約した当日中のみ表示させる-->
+                <%= link_to "予約内容を変更", edit_order_path(order) %>
+              </td>
               <td class="col-3">
                 <ul>
                 <% order.order_details.each do |order_detail| %>
