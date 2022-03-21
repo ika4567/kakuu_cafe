@@ -4,7 +4,7 @@ class Public::OrdersController < ApplicationController
 
   def new
     @today = Date.current.strftime('%-m月%d日')
-    @on_sales = Product.where(product_status: "on_sale")
+    @product = Product.where(product_status: "on_sale")
   end
 
   def thanks
