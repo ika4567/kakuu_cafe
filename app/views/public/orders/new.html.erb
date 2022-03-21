@@ -19,6 +19,12 @@
         <% end %>
         <% end %>
       </div>
+      <div>
+        <%= form_with model: @order, url: orders_path, local: true do |f| %>
+        <%= f.label "予約形態" %>
+        <%= f.select :order_status %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
