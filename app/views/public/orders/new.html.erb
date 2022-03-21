@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-lg-12 px-5 mx-auto">
       <h2><%= @today %>のご予約できる商品</h2>
-      <div class="d-flex row">
+      <div class="d-md-flex row">
         <% @product.each do |product| %>
         <ul class="col-4">
           <li>
@@ -12,17 +12,40 @@
         <p class="col-1">
           <%= number_to_currency(product.price, precision: 0, format: "%u%n", unit: "￥") %>
         </p>
-        <div class="col-3 offset-1"></div>
+        <div class="col-3 offset-1">
         <%= form_with model: @order_detail, url: orders_path, local: true do |f| %>
           <%= f.hidden_field :product_id, value: product.id %>
-          <%= f.select :order_quantity, *[1..2], include_blank: "0" %>個
+          <%= f.select :order_quantity, *[1..2], include_blank: "--" %>個
         <% end %>
+        </div>
         <% end %>
       </div>
+      
       <div>
         <%= form_with model: @order, url: orders_path, local: true do |f| %>
-        <%= f.label "予約形態" %>
-        <%= f.select :order_status %>
+        <div class="form-group form-inline row">
+          <%= f.label :order_status, "予約形態", class: "col-form-label col-md-3" %>
+          <div class="form-check form-check-inline">
+            <%= f.radio_button :order_status, Order.order_statuses.key(0), checked: true, class:"form-check-input" %>
+            <%= f.label :order_status_layaway, Order.order_statuses_i18n[:layaway], class:"form-check-label" %>
+          </div>
+          <div class="form-check form-check-inline">
+            <%= f.radio_button :order_status, Order.order_statuses.key(1), class:"form-check-input" %>
+            <%= f.label :order_status_take_out, Order.order_statuses_i18n[:take_out], class:"form-check-label" %>
+          </div>
+        </div>
+        <div class="form-group form-inline row">
+          <%= f.label :time, "来店予定時間", class: "col-form-label col-md-3" %>
+          <%= @today %>
+          <%= f.time_select :time, class: 'form-control' %>
+        </div>
+        <div class="form-group form-inline row">
+          <%= f.label :note, "備考", class: "col-form-label col-md-3" %>
+          <%= f.text_field :note, class: 'form-control col-md-5' %>
+        </div>
+        <div class="form-group text-center">
+          <%= f.submit "予約内容を確認する", class: "btn border" %>
+        </div>
         <% end %>
       </div>
     </div>
