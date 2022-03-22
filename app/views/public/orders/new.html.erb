@@ -3,8 +3,9 @@
     <div class="col-lg-12 px-5 mx-auto">
       <h2><%= @today %>のご予約できる商品</h2>
       <div class="d-md-flex row">
-        <% @product.each do |product| %>
+        <%= form_with model: @order, url: orders_path, local: true do |f| %>
         <ul class="col-4">
+        <% @product.each do |product| %>
           <li>
             <%= product.product_name %>
           </li>
@@ -13,16 +14,15 @@
           <%= number_to_currency(product.price, precision: 0, format: "%u%n", unit: "￥") %>
         </p>
         <div class="col-3 offset-1">
-        <%= form_with model: @order_detail, url: orders_path, local: true do |f| %>
-          <%= f.hidden_field :product_id, value: product.id %>
-          <%= f.select :order_quantity, *[1..2], include_blank: "--" %>個
+        <%= f.fields_for :order_details, local: true do |ff| %>
+          <%= ff.hidden_field :product_id, value: product.id %>
+          <%= ff.select :reservation_quantity, *[1..2], include_blank: "--" %>個
         <% end %>
         </div>
         <% end %>
       </div>
 
       <div>
-        <%= form_with model: @order, url: orders_path, local: true do |f| %>
         <div class="form-group form-inline row">
           <%= f.label :order_system, "予約形態", class: "col-form-label col-md-3" %>
           <div class="form-check form-check-inline">
