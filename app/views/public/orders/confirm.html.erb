@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 px-5 mx-auto">
+      <h2>予約内容確認</h2>
+      <div class="d-md-flex row">
+        <ul class="col-4">
+        <% @order_details.each do |order_detail| %>
+          <li>
+            <%= order_detail.product.product_name %>
+          </li>
+        </ul>
+        <p class="col-1">
+          <%= number_to_currency(order_detail.product.price, precision: 0, format: "%u%n", unit: "￥") %>
+        </p>
+          <%= order_detail.reservation_quantity %>個
+        <% end %>
+        </div>
+      </div>
+
+      <div>
+        <div class="row">
+          予約形態：<%= @order.order_system_i18n %>
+        </div>
+        <div class="row">
+          来店予定時間：<%= @order.time.strftime('%-m月%d日 %-H時%M分') %>
+          <!--<= @today %>-->
+        </div>
+        <div class="row">
+          備考：<%= @order.note %>
+        </div>
+        <div class="form-group text-center">
+        <%= form_with model: @order, url: orders_path, local: true do |f| %>
+          <%= f.hidden_field :order_system, value: @order.order_system %>
+          <%= f.hidden_field :time, value: @order.time %>
+          <%= f.hidden_field :note, value: @order.note %>
+          <%= f.submit "予約を確定する", class: "btn border-success" %>
+        <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -2,8 +2,8 @@
   <div class="row">
     <div class="col-lg-12 px-5 mx-auto">
       <h2><%= @today %>のご予約できる商品</h2>
+      <%= form_with model: @order, url: orders_confirm_path, local: true do |f| %>
       <div class="d-md-flex row">
-        <%= form_with model: @order, url: orders_confirm_path, local: true do |f| %>
         <ul class="col-4">
         <% @product.each do |product| %>
           <li>
@@ -15,6 +15,7 @@
         </p>
         <div class="col-3 offset-1">
         <%= f.fields_for :order_details, local: true do |ff| %>
+          <%= ff.hidden_field :order_id, value: @order.id %>
           <%= ff.hidden_field :product_id, value: product.id %>
           <%= ff.select :reservation_quantity, *[1..2], include_blank: "--" %>個
         <% end %>
