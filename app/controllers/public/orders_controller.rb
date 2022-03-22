@@ -22,10 +22,13 @@ class Public::OrdersController < ApplicationController
     @order = current_customer.orders.new(order_params)
     @order.save
     # binding.pry
-    redirect_to  orders_confirm_path
+    # redirect_to  orders_confirm_path
   end
 
   def confirm
+    @order = Order.new(order_params)
+    # binding.pry
+    render :confirm
   end
 
   def thanks
