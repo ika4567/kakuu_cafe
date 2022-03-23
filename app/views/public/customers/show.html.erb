@@ -39,7 +39,9 @@
               <td class="col-2 text-center">
                 <%= order.created_at.strftime('%Y/%m/%d %R') %><br>
                 <!--予約した当日中のみ表示させる-->
-                <%= link_to "予約内容を変更", edit_order_path(order) %>
+                <!--< if order.created_at == Date.today  %>-->
+                <%= link_to "変更・キャンセル", edit_order_path(order) %>
+                <!--< end %>-->
               </td>
               <td class="col-3">
                 <ul>
@@ -59,7 +61,7 @@
                 <% end %>
                 </ul>
               </td>
-              <td class="col-2 text-center"><%= order.order_system %></td>
+              <td class="col-2 text-center"><%= order.order_system_i18n %></td>
               <td class="col-2 text-center"><%= order.time.strftime('%R') %></td>
               <td class="col-2"><%= order.note %></td>
             </tr>

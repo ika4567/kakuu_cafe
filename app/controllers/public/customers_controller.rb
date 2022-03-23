@@ -1,6 +1,6 @@
 class Public::CustomersController < ApplicationController
   def show
-    @orders = current_customer.orders.order(created_at: :desc).limit(10)
+    @orders = current_customer.orders.where.not(order_status: "cancel").order(created_at: :desc).limit(10)
   end
 
   def edit
@@ -9,7 +9,7 @@ class Public::CustomersController < ApplicationController
   
   def update
     @customer = Customer.find(current_customer.id)
-    binding.pry
+    # binding.pry
     @customer.update(customer_params)
     redirect_to my_page_path
   end
@@ -17,7 +17,7 @@ class Public::CustomersController < ApplicationController
   def cancel
     @customer = Customer.find(current_customer.id)
     @customer.update(is_active: true)
-    # reset_session
+    reset_session
     redirect_to root_path
   end
   

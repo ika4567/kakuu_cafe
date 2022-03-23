@@ -4,3 +4,11 @@ ja:
       product_status:
         discontinued: "販売停止中"
         on_sale: "販売中"
+    order:
+      order_system:
+        layaway: "取り置き"
+        take_out: "テイクアウト"
+      order_status:
+        reservation: "予約受付"
+        complete: "受け渡し済み"
+        cancel: "キャンセル"
