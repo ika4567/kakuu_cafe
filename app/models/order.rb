@@ -6,5 +6,6 @@ class Order < ApplicationRecord
   belongs_to :customer
 
   enum order_system: { layaway: 0, take_out: 1}
+  enum order_status: { reservation: 0, complete: 1, cancel: 2}
 
 end

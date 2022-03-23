@@ -46,6 +46,7 @@
         </div>
         <div class="form-group text-center">
           <%= f.submit "予約内容を変更する", "data-confirm" => "予約内容を変更しますか？", class: "btn border" %>
+          <%= link_to "予約をキャンセルする", orders_cancel_path, method: :patch, "data-confirm" => "予約をキャンセルしますか？", class: "btn border" %>
         </div>
         <% end %>
       </div>
