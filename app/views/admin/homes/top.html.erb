@@ -50,7 +50,7 @@
               <% @orders.each do |order| %>
               <tr>
                 <td class="text-center">
-                  <%= link_to order.customer.name, admin_customer_path(order) %>
+                  <%= link_to order.customer.name, admin_customer_path(order.customer_id) %>
                 </td>
                 <td>
                   <% order.order_details.each do |order_detail| %>
