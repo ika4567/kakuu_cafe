@@ -23,11 +23,11 @@ Rails.application.routes.draw do
   end
 
   scope module: :public do
-    patch 'orders/cancel'
     resources :orders, only: [:new, :create, :index, :edit, :update]
     get 'orders/note'
     post 'orders/confirm'
     get 'orders/thanks'
+    patch 'orders/:id/cancel' => 'orders#cancel', as: 'orders_cancel'
   end
 
   scope module: :public do

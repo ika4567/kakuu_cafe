@@ -30,13 +30,16 @@ class Public::OrdersController < ApplicationController
   
   def update
     @order = Order.find(params[:id])
+    binding.pry
     @order.update(order_params)
     redirect_to my_page_path
   end
   
   def cancel
     @order = Order.find(params[:id])
+    # binding.pry
     @order.update(order_status: "cancel")
+    redirect_to my_page_path
   end
 
   def thanks
