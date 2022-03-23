@@ -4,16 +4,16 @@
 
       <h2>予約情報</h2>
 
-      <div class="d-lg-flex">
-        <div class="col-lg-4">
+      <div class="">
+        <div class="col-lg-6">
           <div class="bg-light rounded-lg px-2 pt-2 mr-1">
             <h4>予約受付中の商品</h4>
             <table class="table">
               <thead>
                 <tr>
-                  <td class="col-6 text-center">商品名</td>
+                  <td class="text-center">商品名</td>
                   <td class="col-3 text-center">金額</td>
-                  <td class="col-3 text-center">残り<br>個数</td>
+                  <td class="col-4 text-center">残り個数</td>
                 </tr>
               </thead>
               <tbody>
@@ -27,12 +27,12 @@
               </tbody>
             </table>
           </div>
-          <div>
-            <div><%= link_to "+ 予約商品を登録する", admin_products_sale_path, class:"btn border" %></div>
+          <div class="d-flex mb-3">
+            <div><%= link_to "+ 予約商品を登録する", admin_products_sale_path, class:"btn border mr-3" %></div>
             <div><%= link_to "過去の予約一覧", admin_orders_path, class:"btn border" %></div>
           </div>
         </div>
-        <div class="col-lg-7 overflow-auto p-2-2-0-2">
+        <div class="overflow-auto p-2-2-0-2">
           <h4><%= @today %>の予約一覧</h4>
           <table class="table">
             <thead>
@@ -41,28 +41,33 @@
                 <td class="text-center col-3">商品名</td>
                 <td class="text-center">個数</td>
                 <td class="text-center col-2">予約形態</td>
-                <td class="text-center col-2">来店予定時刻</td>
-                <td class="col-2">備考</td>
+                <td class="text-center col-2">来店予定時間</td>
+                <td class="colspan-2">備考</td>
+                <td></td>
               </tr>
             </thead>
             <tbody>
-              <!--< @orders.each do |order| %>-->
+              <% @orders.each do |order| %>
               <tr>
-                <td class="text-center"><%= link_to "山田花子", admin_customer_path([:id]) %></td>
-                <!--<td class="text-center"><= link_to order.customer.name, admin_customers_show_path %></td>-->
-                <td>・キャラメルバナナチーズケーキ</td>
-                <!--<td><= order. %></td>-->
-                <td class="text-center">1</td>
-                <!--<td><= order. %></td>-->
-                <td class="text-center">取り置き</td>
-                <!--<td><= order.order_system %></td>-->
-                <td class="text-center">14:00</td>
-                <!--<td><= order.time %></td>-->
-                <td>クッキーはテイクアウトでお願いします</td>
-                <!--<td><= order.note %></td>-->
-                <!--<= order_status %>-->
+                <td class="text-center">
+                  <%= link_to order.customer.name, admin_customer_path(order) %>
+                </td>
+                <td>
+                  <% order.order_details.each do |order_detail| %>
+                  <%= order_detail.product.product_name %>
+                  <% end %>
+                </td>
+                <td class="text-center">
+                  <% order.order_details.each do |order_detail| %>
+                  <%= order_detail.reservation_quantity %>
+                  <% end %>
+                </td>
+                <td class="text-center"><%= order.order_system_i18n %></td>
+                <td class="text-center"><%= order.time.strftime('%R') %></td>
+                <td><%= order.note %></td>
+                <td class="no-wrap"><%= order.order_status_i18n %></td>
               </tr>
-              <!--< end %>-->
+              <% end %>
             </tbody>
           </table>
         </div>
