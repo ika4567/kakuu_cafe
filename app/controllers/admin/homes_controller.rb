@@ -4,6 +4,6 @@ class Admin::HomesController < ApplicationController
     @orders = Order.where("created_at >= ?", Date.today)
     # @orders.each do |order|
     # end
-    @today = Date.current.strftime('%m月%d日')
+    @today = Date.current.strftime('%-m月%d日')
   end
 end
