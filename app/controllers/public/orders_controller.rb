@@ -23,13 +23,26 @@ class Public::OrdersController < ApplicationController
     redirect_to orders_thanks_path
   end
 
+  def edit
+    @product = Product.where(product_status: "on_sale")
+    @order = Order.find(params[:id])
+  end
+  
+  def update
+    @order = Order.find(params[:id])
+    @order.update(order_params)
+    redirect_to my_page_path
+  end
+  
+  def cancel
+    @order = Order.find(params[:id])
+    @order.update(order_status: "cancel")
+  end
+
   def thanks
   end
 
   def index
-  end
-
-  def edit
   end
 
   private
