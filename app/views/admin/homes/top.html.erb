@@ -54,7 +54,11 @@
                 </td>
                 <td>
                   <% order.order_details.each do |order_detail| %>
+                  <ul>
+                    <li>
                   <%= order_detail.product.product_name %>
+                    </li>
+                  </ul>
                   <% end %>
                 </td>
                 <td class="text-center">

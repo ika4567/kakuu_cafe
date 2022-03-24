@@ -31,7 +31,7 @@
           <p>来店予定時間：<%= @order.time.strftime('%-m月%d日 %-H時%M分') %></p>
         </div>
         <div class="row">
-          <p>備考：<%= @order.note %>
+          <p>備考：<%= @order.note %></p>
         </div>
         <div class="form-group text-center">
           <%= f.hidden_field :order_system, value: @order.order_system %>
