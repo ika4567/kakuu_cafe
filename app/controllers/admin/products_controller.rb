@@ -13,15 +13,6 @@ class Admin::ProductsController < ApplicationController
     redirect_to admin_products_path
   end
 
-  def sale
-    @product = Product.all
-  end
-
-  def on_sale
-    @product = Product.find([:product][:id])
-    @product.update(product_status: "on_sale")
-  end
-
   def edit
     @product = Product.find(params[:id])
   end
@@ -29,6 +20,17 @@ class Admin::ProductsController < ApplicationController
   def update
     product = Product.find(params[:id])
     product.update(product_params)
+    redirect_to admin_products_path
+  end
+
+  def status
+    @product = Product.find(params[:id])
+    # binding.pry
+    if @product.product_status == "discontinued"
+      @product.update(product_status: "on_sale")
+    elsif @product.product_status == "on_sale"
+      @product.update(product_status: "discontinued")
+    end
     redirect_to admin_products_path
   end
 
