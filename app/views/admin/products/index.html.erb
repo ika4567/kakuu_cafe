@@ -18,9 +18,9 @@
           <%= f.text_field :max_quantity, class:"form-control col-8 col-md-2" %><p class="col-1 m-0 py-2 mb-2">個</p>
         </div>
         <div class="form-group row">
-          <%= f.label "販売状態：", class:"col-form-label col-md-3" %>
+          <%= f.label "受付状態：", class:"col-form-label col-md-3" %>
           <%= f.select :product_status, Product.product_statuses_i18n.keys.map{|k| [I18n.t("enum.product.product_status.#{k}"), k]}, {class:"form-control"} %>
-          <%= f.submit "新規登録", class:"btn btn-success mb-1" %>
+          <%= f.submit "新規登録", class:"btn btn-success mb-1 ml-1" %>
         </div>
         <% end %>
       </div>
@@ -43,8 +43,8 @@
               <td class="text-center"><%= product.max_quantity %></td>
               <td class="text-center"><%= product.product_status_i18n %></td>
               <td class="text-center row">
-                <%= link_to "受付状態の変更", admin_products_status_path(product), method: :patch, class:"btn btn-success text-nowrap mb-1 mb-lg-0 mr-2" %>
-                <%= link_to "削除", admin_product_path(product), method: :delete, "data-confirm" => "削除しますか？", class:"btn btn-danger text-nowrap" %>
+                <%= link_to "受付状態の変更", admin_products_status_path(product), method: :patch, class:"btn btn-outline-success text-nowrap mb-1" %>
+                <%= link_to "削除", admin_product_path(product), method: :delete, "data-confirm" => "削除しますか？", class:"btn btn-outline-danger text-nowrap" %>
               </td>
             </tr>
             <% end %>
