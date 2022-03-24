@@ -4,7 +4,7 @@
 
       <h2>商品一覧</h2>
       <div>
-        <%= form_with model: @product, local: true do |f| %>
+        <%= form_with model: Product.new, url: admin_products_path, method: :post, local: true do |f| %>
         <div class="form-group row">
           <%= f.label "商品名：", class:"col-form-label col-md-3" %>
           <%= f.text_field :product_name, class:"form-control col-md-8" %>
@@ -16,6 +16,10 @@
         <div class="form-group row">
           <%= f.label "最大個数：", class:"col-form-label col-md-3" %>
           <%= f.text_field :max_quantity, class:"form-control col-8 col-md-2" %><p class="col-1 m-0 py-2 mb-2">個</p>
+        </div>
+        <div class="form-group row">
+          <%= f.label "販売状態：", class:"col-form-label col-md-3" %>
+          <%= f.select :product_status, Product.product_statuses_i18n.keys.map{|k| [I18n.t("enum.product.product_status.#{k}"), k]}, {class:"form-control"} %>
           <%= f.submit "新規登録", class:"btn btn-success mb-1" %>
         </div>
         <% end %>
@@ -27,7 +31,7 @@
               <th class="col-4 text-center">商品名</th>
               <th class="col-2 text-center">価格</th>
               <th class="col-2 text-center">最大個数</th>
-              <th class="col-2 text-center">販売状態</th>
+              <th class="col-2 text-center">受付状態</th>
               <th class="col-2 text-center"></th>
             </tr>
           </thead>

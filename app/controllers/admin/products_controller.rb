@@ -14,6 +14,12 @@ class Admin::ProductsController < ApplicationController
   end
 
   def sale
+    @product = Product.all
+  end
+
+  def on_sale
+    @product = Product.find([:product][:id])
+    @product.update(product_status: "on_sale")
   end
 
   def edit
@@ -35,7 +41,7 @@ class Admin::ProductsController < ApplicationController
 
   private
   def product_params
-    params.require(:product).permit(:product_name, :price, :max_quantity)
+    params.require(:product).permit(:product_name, :price, :max_quantity, :product_status)
   end
 
 end
