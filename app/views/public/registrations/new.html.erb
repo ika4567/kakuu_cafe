@@ -1,8 +1,8 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-4 px-5 mx-auto text-center">
+    <div class="col-md-6 col-lg-4 px-5 mx-auto text-center">
       <h2>新規登録</h2>
-      <p>※商品の予約には登録が必要です。</p>
+      <p class="text-nowrap">※商品の予約には登録が必要です。</p>
 
       <%= form_with model: @customer, url: customer_registration_path, local: true do |f| %>
         <%= render "public/shared/error_messages", resource: resource %>
