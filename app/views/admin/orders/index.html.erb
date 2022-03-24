@@ -7,34 +7,33 @@
         <table class="table">
           <thead>
             <tr>
-              <th class="text-center col-1">予約日時</th>
+              <th class="text-center col-2">予約日時</th>
               <th class="text-center col-2">予約者名</th>
               <th class="text-center col-2">予約商品</th>
-              <th class="text-center col-1">個数</th>
+              <th class="text-center">個数</th>
               <th class="text-center col-2">予約形態</th>
               <th class="text-center col-2">来店<br>予定時刻</th>
               <th class="text-center col-2">備考</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="text-center">created_at</td>
-              <td class="text-center">name</td>
-              <td>product_name</td>
-              <td class="text-center">reservation_quantity</td>
-              <td class="text-center">order_system</td>
-              <td class="text-center">time</td>
-              <td>note</td>
-            </tr>
             <% @orders.each do |order| %>
             <tr>
-              <td class="text-center"><% order.created_at %></td>
-              <!--<td class="text-center">< order.customer.name %></td>-->
-              <!--<td>< order.product_name %></td>-->
-              <!--<td class="text-center">< order.order_details.reservation_quantity %></td>-->
-              <td class="text-center"><% order.order_system %></td>
-              <td class="text-center"><% order.time %></td>
-              <td><% order.note %></td>
+              <td class="text-center"><%= order.created_at.strftime('%-m月%d日 %H時%M分') %></td>
+              <td class="text-center"><%= order.customer.name %></td>
+              <td>
+                <% order.order_details.each do |order_detail| %>
+                <%= order_detail.product.product_name %>
+                <% end %>
+              </td>
+              <td class="text-center">
+                <% order.order_details.each do |order_detail| %>
+                <%= order_detail.reservation_quantity %>
+                <% end %>
+              </td>
+              <td class="text-center"><%= order.order_system_i18n %></td>
+              <td class="text-center"><%= order.time.strftime('%R') %></td>
+              <td><%= order.note %></td>
             </tr>
             <% end %>
           </tbody>

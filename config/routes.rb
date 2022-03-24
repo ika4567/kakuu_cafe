@@ -13,8 +13,8 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :products, only: [:index, :create, :edit, :update, :destroy]
-    get 'products/sale' => 'products#sale'
+    resources :products, only: [:new, :index, :create, :edit, :update, :destroy]
+    patch 'products/:id/status' => 'products#status', as: 'products_status'
   end
 
     scope module: :public do
