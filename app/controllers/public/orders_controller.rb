@@ -16,8 +16,6 @@ class Public::OrdersController < ApplicationController
       end
     end
     @order = current_customer.orders.new(order_params)
-
-    #@order_details = @order.order_details
     # binding.pry
     render :confirm
   end
