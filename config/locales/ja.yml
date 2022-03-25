@@ -2,8 +2,8 @@ ja:
   enums:
     product:
       product_status:
-        discontinued: "販売停止中"
-        on_sale: "販売中"
+        discontinued: "受付停止中"
+        on_sale: "受付中"
     order:
       order_system:
         layaway: "取り置き"
