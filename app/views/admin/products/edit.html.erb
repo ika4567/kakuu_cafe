@@ -3,6 +3,14 @@
     <div class="col-lg-12 px-5 mx-auto">
 
       <h2>商品情報編集</h2>
+      <% if @product.errors.any? %>
+        <ul>
+        <%= @product.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      <% end %>
+
       <%= form_with model: @product, url: admin_product_path(@product.id), method: :patch, local: true do |f| %>
         <div class="form-group row">
           <%= f.label "商品名：", class:"col-form-label col-md-3" %>

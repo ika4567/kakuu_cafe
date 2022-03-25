@@ -1,6 +1,7 @@
 class Admin::ProductsController < ApplicationController
   def index
     @products = Product.order("product_name")
+    @product = Product.new
   end
 
   def new
@@ -8,9 +9,15 @@ class Admin::ProductsController < ApplicationController
   end
 
   def create
-    product = Product.new(product_params)
-    product.save
-    redirect_to admin_products_path
+    @product = Product.new(product_params)
+    # binding.pry
+    if @product.save
+      redirect_to admin_products_path
+    else
+      render :index
+      @products = Product.order("product_name")
+      @product = Product.new
+    end
   end
 
   def edit
@@ -18,9 +25,12 @@ class Admin::ProductsController < ApplicationController
   end
 
   def update
-    product = Product.find(params[:id])
-    product.update(product_params)
-    redirect_to admin_products_path
+    @product = Product.find(params[:id])
+    if @product.update(product_params)
+      redirect_to admin_products_path
+    else
+      render :edit
+    end
   end
 
   def status
