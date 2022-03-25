@@ -3,25 +3,26 @@
     <div class="col-lg-12 px-5 mx-auto">
       <h2>予約内容確認</h2>
       <%= form_with model: @order, url: orders_path, local: true do |f| %>
-      <% @order_details.each do |order_detail| %>
-      <div class="row col-md-8">
-        <ul class="col-7">
-          <li>
-            <%= order_detail.product.product_name %>
-          </li>
-        </ul>
-        <p class="col-1">
-          <%= number_to_currency(order_detail.product.price, precision: 0, format: "%u%n", unit: "￥") %>
-        </p>
-        <p class="col-3 offset-1 text-nowrap"><%= order_detail.reservation_quantity %>個</p>
-        <%= f.fields_for :order_details, local: true do |ff| %>
-          <%= ff.hidden_field :order_id, value: @order.id %>
-          <%= ff.hidden_field :product_id, value: order_detail.product.id %>
-          <%= ff.hidden_field :reservation_quantity, value: order_detail.reservation_quantity %>
-        <% end %>
+        <% @order.order_details.each do |order_detail| %>
+        <div class="row col-md-8">
+          <ul class="col-7">
+            <li>
+              <%= order_detail.product.product_name %>
+            </li>
+          </ul>
+          <p class="col-1">
+            <%= number_to_currency(order_detail.product.price, precision: 0, format: "%u%n", unit: "￥") %>
+          </p>
+          <p class="col-3 offset-1 text-nowrap"><%= order_detail.reservation_quantity %>個</p>
+  
         </div>
         <% end %>
-      </div>
+        <%= f.fields_for :order_details, local: true do |ff| %>
+          <%= ff.hidden_field :order_id %>
+          <%= ff.hidden_field :product_id %>
+          <%= ff.hidden_field :reservation_quantity %>
+        <% end %>
+    </div>
 
       <div class="col-md-8 offset-md-1">
         <div class="row">
@@ -31,7 +32,7 @@
           <p>来店予定時間：<%= @order.time.strftime('%-m月%d日 %-H時%M分') %></p>
         </div>
         <div class="row">
-          <p>備考：<%= @order.note %>
+          <p>備考：<%= @order.note %></p>
         </div>
         <div class="form-group text-center">
           <%= f.hidden_field :order_system, value: @order.order_system %>

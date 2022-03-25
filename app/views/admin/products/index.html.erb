@@ -19,7 +19,7 @@
         </div>
         <div class="form-group row">
           <%= f.label "受付状態：", class:"col-form-label col-md-3" %>
-          <%= f.select :product_status, Product.product_statuses_i18n.keys.map{|k| [I18n.t("enum.product.product_status.#{k}"), k]}, {class:"form-control"} %>
+          <%= f.select :product_status, Product.product_statuses_i18n.keys.map{|k| [I18n.t("enums.product.product_status.#{k}"), k]}, {class:"form-control"} %>
           <%= f.submit "新規登録", class:"btn btn-success mb-1 ml-1" %>
         </div>
         <% end %>
