@@ -44,6 +44,13 @@ class Public::OrdersController < ApplicationController
   def cancel
     @order = Order.find(params[:id])
     # binding.pry
+    @order.products.each do |product|
+      @order.order_details.each do |detail|
+        if detail.product_id == product.id
+          product.update(max_quantity: product.max_quantity + detail.reservation_quantity)
+        end
+      end
+    end
     @order.update(order_status: "cancel")
     redirect_to my_page_path
   end
