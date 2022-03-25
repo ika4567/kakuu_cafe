@@ -22,9 +22,11 @@
               <td class="text-center"><%= order.created_at.strftime('%-m月%d日 %H時%M分') %></td>
               <td class="text-center"><%= order.customer.name %></td>
               <td>
+                <ul>
                 <% order.order_details.each do |order_detail| %>
-                <%= order_detail.product.product_name %>
+                  <li><%= order_detail.product.product_name %></li>
                 <% end %>
+                </ul>
               </td>
               <td class="text-center">
                 <% order.order_details.each do |order_detail| %>
