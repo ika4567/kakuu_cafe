@@ -25,13 +25,20 @@ class Public::OrdersController < ApplicationController
   def create
     @order = current_customer.orders.new(order_params)
     @order.save
+    @order.products.each do |product|
+      @order.order_details.each do |detail|
+        if detail.product_id == product.id
+          product.update(max_quantity: product.max_quantity - detail.reservation_quantity)
+        end
+      end
+    end
     # binding.pry
     redirect_to orders_thanks_path
   end
 
   def edit
-    @product = Product.where(product_status: "on_sale")
     @order = Order.find(params[:id])
+    @order_details = @order.order_details.all
   end
 
   def update
@@ -44,7 +51,21 @@ class Public::OrdersController < ApplicationController
   def cancel
     @order = Order.find(params[:id])
     # binding.pry
+    @order.products.each do |product|
+      @order.order_details.each do |detail|
+        if detail.product_id == product.id
+          product.update(max_quantity: product.max_quantity + detail.reservation_quantity)
+        end
+      end
+    end
     @order.update(order_status: "cancel")
+    @order.products.each do |product|
+      @order.order_details.each do |detail|
+        if detail.product_id == product.id
+          product.update(max_quantity: product.max_quantity + detail.reservation_quantity)
+        end
+      end
+    end
     redirect_to my_page_path
   end
 

@@ -14,9 +14,8 @@ class Admin::ProductsController < ApplicationController
     if @product.save
       redirect_to admin_products_path
     else
-      render :index
       @products = Product.order("product_name")
-      @product = Product.new
+      render :index
     end
   end
 
