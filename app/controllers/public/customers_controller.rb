@@ -1,4 +1,6 @@
 class Public::CustomersController < ApplicationController
+  before_action :authenticate_customer!
+  
   def show
     @orders = current_customer.orders.where.not(order_status: "cancel").order(created_at: :desc).limit(10)
   end

@@ -1,4 +1,6 @@
 class Admin::ProductsController < ApplicationController
+  before_action :authenticate_admin!
+  
   def index
     @products = Product.order("product_name")
     @product = Product.new
