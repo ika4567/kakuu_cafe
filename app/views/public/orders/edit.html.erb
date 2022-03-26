@@ -12,25 +12,24 @@
       <% end %>
 
       <%= form_with model: @order, method: :patch, url: order_path, local: true do |f| %>
-      <div class="d-md-flex row col-md-10 offset-md-1 border border-danger p-3 rounded-lg">
-        <ul class="col-4">
-        <% @order_details.each do |detail| %>
-          <li>
-            <%= detail.product.product_name %>
-          </li>
-        </ul>
-        <p class="col-1">
-          <%= number_to_currency(detail.product.price, precision: 0, format: "%u%n", unit: "￥") %>
-        </p>
-        <div class="col-3 offset-1">
-        <%= f.fields_for :order_details, local: true do |ff| %>
-          <%= ff.hidden_field :order_id %>
-          <%= ff.hidden_field :product_id %>
-          <%= ff.select :reservation_quantity, *[0..2] %>個
-        <% end %>
+        <div class="row col-md-8">
+          <%= f.fields_for :order_details, local: true do |ff| %>
+          <ul class="col-7">
+            <li>
+              <%= ff.object.product.product_name %>
+            </li>
+          </ul>
+          <p class="col-1">
+            <%= number_to_currency(ff.object.product.price, precision: 0, unit: "￥") %>
+          </p>
+          <div class="col-3 offset-1">
+            <%= ff.hidden_field :id %>
+            <%= ff.hidden_field :order_id %>
+            <%= ff.hidden_field :product_id %>
+            <%= ff.select :reservation_quantity, *[0..2] %>個
+          </div>
+          <% end %>
         </div>
-      </div>
-      <% end %>
 
       <div>
         <div class="form-group form-inline row">
@@ -54,8 +53,8 @@
           <%= f.text_field :note, class: 'form-control col-md-5' %>
         </div>
         <div class="form-group text-center">
-          <%= f.submit "予約内容を変更する", "data-confirm" => "予約内容を変更しますか？", class: "btn border" %>
-          <%= link_to "予約をキャンセルする", orders_cancel_path, method: :patch, "data-confirm" => "予約をキャンセルしますか？", class: "btn border" %>
+          <%= f.submit "予約内容を変更する", "data-confirm" => "予約内容を変更しますか？", class: "btn btn-outline-success" %>
+          <%= link_to "予約をキャンセルする", orders_cancel_path, method: :patch, "data-confirm" => "予約をキャンセルしますか？", class: "btn btn-outline-danger" %>
         </div>
         <% end %>
       </div>
