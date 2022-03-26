@@ -1,4 +1,6 @@
 class Public::CustomersController < ApplicationController
+  before_action :authenticate_customer!
+  
   def show
     @orders = current_customer.orders.where.not(order_status: "cancel").order(created_at: :desc).limit(10)
   end
@@ -10,8 +12,11 @@ class Public::CustomersController < ApplicationController
   def update
     @customer = Customer.find(current_customer.id)
     # binding.pry
-    @customer.update(customer_params)
-    redirect_to my_page_path
+    if @customer.update(customer_params)
+      redirect_to my_page_path
+    else
+      render :edit
+    end
   end
   
   def cancel
