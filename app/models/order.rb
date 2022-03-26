@@ -9,16 +9,19 @@ class Order < ApplicationRecord
   enum order_status: { reservation: 0, complete: 1, cancel: 2}
 
   validates_associated :order_details
-  validates :order_details, presence: true
-  validate :time_check_current
-  validate :time_check_finish
+  validate :time_check_current, on: :create
+  validate :time_check_last
 
   def time_check_current
-    errors.add(:time, "現在より遅い時間を選択してください") if self.time < Time.current - 2.minute
+    if self.time < Time.current - 2.minute
+      errors.add(:time, "現時刻から18時までの時間を選択してください")
+    end
   end
 
-  def time_check_finish
-    errors.add(:time, "18時より早い時間を選択してください") if self.time > Date.current + 18.hour
+  def time_check_last
+    if self.time > Date.current + 18.hour
+      errors.add(:time, "現時刻から18時までの時間を選択してください")
+    end
   end
 
 end

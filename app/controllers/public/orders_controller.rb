@@ -19,13 +19,13 @@ class Public::OrdersController < ApplicationController
     end
     @order = current_customer.orders.new(order_params)
     # binding.pry
-    if @order.invalid?
-      @today = Date.current.strftime('%-m月%d日')
-      @product = Product.where(product_status: "on_sale")
-      @order = Order.new
-      @order.order_details.build
-      render :new
-    end
+    # if @order.invalid?
+    #   @today = Date.current.strftime('%-m月%d日')
+    #   @product = Product.where(product_status: "on_sale")
+    #   @order = Order.new
+    #   @order.order_details.build
+    #   render :new
+    # end
   end
 
   def create
