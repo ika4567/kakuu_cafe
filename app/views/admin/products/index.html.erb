@@ -5,7 +5,7 @@
       <h2>商品一覧</h2>
       <% if @product.errors.any? %>
         <ul>
-        <%= @product.errors.full_messages.each do |message| %>
+        <% @product.errors.full_messages.each do |message| %>
           <li><%= message %></li>
         <% end %>
         </ul>
