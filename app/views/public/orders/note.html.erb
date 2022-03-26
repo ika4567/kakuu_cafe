@@ -30,9 +30,7 @@
           </ul>
         </div>
         <div class="col-md-5 offset-md-1">
-          <% if Time.current < Date.today + 17.hour then %>
-            <%= link_to "ご予約はこちら", new_order_path, class: "btn btn-block border rounded-lg p-3" %>
-          <% elsif Time.current > Date.today + 10.hour then %>
+          <% if Time.current < Date.current + 17.hour && Time.current > Date.current + 10.hour then %>
             <%= link_to "ご予約はこちら", new_order_path, class: "btn btn-block border rounded-lg p-3" %>
           <% else %>
             <%= link_to "ご予約はこちら", new_order_path, class: "btn btn-block border rounded-lg p-3 disabled" %>
