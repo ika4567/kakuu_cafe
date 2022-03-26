@@ -17,18 +17,24 @@ class Public::OrdersController < ApplicationController
     end
     @order = current_customer.orders.new(order_params)
     # binding.pry
-    render :confirm
+    # if @order.invalid?
+    #   render :new
+    # end
   end
 
   def create
     @order = current_customer.orders.new(order_params)
-    @order.save
-    @order.products.each do |product|
-      @order.order_details.each do |detail|
-        if detail.product_id == product.id
-          product.update(max_quantity: product.max_quantity - detail.reservation_quantity)
+    # binding.pry
+    if @order.save
+      @order.products.each do |product|
+        @order.order_details.each do |detail|
+          if detail.product_id == product.id
+            product.update(max_quantity: product.max_quantity - detail.reservation_quantity)
+          end
         end
       end
+    else
+      render :new
     end
     # binding.pry
     redirect_to orders_thanks_path
