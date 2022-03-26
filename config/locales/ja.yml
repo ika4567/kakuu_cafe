@@ -14,6 +14,29 @@ ja:
         cancel: "キャンセル"
         
   activerecord:
+    models:
+      admin: 管理者
+      customer: お客様
+      order_detail: 予約商品
+      order: 予約
+      product: 商品
+    attributes:
+      customer:
+        name: 名前
+        telephone_number: 電話番号
+        email: メールアドレス
+        password: パスワード
+      order_detail:
+        reservation_quantity: 予約個数
+      order:
+        order_system: 予約形態
+        time: 来店時間
+        note: 備考
+      product:
+        product_name: 商品名
+        price: 価格
+        max_quantity: 最大個数
+  
     errors:
       messages:
         record_invalid: 'バリデーションに失敗しました: %{errors}'
@@ -138,6 +161,7 @@ ja:
       model_invalid: 'バリデーションに失敗しました: %{errors}'
       not_a_number: は数値で入力してください
       not_an_integer: は整数で入力してください
+      not_saved: 登録できませんでした
       odd: は奇数にしてください
       other_than: は%{count}以外の値にしてください
       present: は入力しないでください
