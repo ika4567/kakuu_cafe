@@ -2,6 +2,15 @@
   <div class="row">
     <div class="col-lg-12 px-5 mx-auto">
       <h2><%= @today %>のご予約できる商品</h2>
+      
+      <% if @order.errors.any? %>
+        <ul>
+        <%= @order.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      <% end %>
+      
       <%= form_with model: @order, url: orders_confirm_path, local: true do |f| %>
       <% @product.each do |product| %>
       <div class="row col-md-8">
