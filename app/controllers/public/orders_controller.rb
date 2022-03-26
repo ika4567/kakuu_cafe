@@ -22,8 +22,6 @@ class Public::OrdersController < ApplicationController
     if @order.invalid?
       @today = Date.current.strftime('%-m月%d日')
       @product = Product.where(product_status: "on_sale")
-      # @order = Order.new
-      # @order.order_details.build
       render :new
     end
   end
@@ -56,8 +54,22 @@ class Public::OrdersController < ApplicationController
 
   def update
     @order = Order.find(params[:id])
-    # binding.pry
+
+    old_reservetion_quantity = {}
+    order_detail_params = params[:order][:order_details_attributes]
+    order_detail_params.each do |order_detail_param|
+      order_detail = OrderDetail.find(order_detail_param[1][:id].to_i)
+      old_reservetion_quantity[order_detail_param[1][:id]] = order_detail.reservation_quantity.to_i
+    end
+
     if @order.update(order_params)
+      order_detail_params.each do |order_detail_param|
+        # binding.pry
+        product = Product.find(order_detail_param[1][:product_id])
+        quantity = old_reservetion_quantity[order_detail_param[1][:id]] - order_detail_param[1][:reservation_quantity].to_i
+        product.max_quantity += quantity
+        product.save
+      end
       redirect_to my_page_path
     else
       @order_details = @order.order_details.all
@@ -76,13 +88,6 @@ class Public::OrdersController < ApplicationController
       end
     end
     @order.update(order_status: "cancel")
-    # @order.products.each do |product|
-    #   @order.order_details.each do |detail|
-    #     if detail.product_id == product.id
-    #       product.update(max_quantity: product.max_quantity + detail.reservation_quantity)
-    #     end
-    #   end
-    # end
     redirect_to my_page_path
   end
 
