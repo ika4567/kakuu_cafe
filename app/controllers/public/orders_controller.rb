@@ -1,4 +1,6 @@
 class Public::OrdersController < ApplicationController
+  before_action :authenticate_customer!, except: [:note]
+
   def note
   end
 
@@ -16,24 +18,35 @@ class Public::OrdersController < ApplicationController
       end
     end
     @order = current_customer.orders.new(order_params)
-
-    #@order_details = @order.order_details
     # binding.pry
-    render :confirm
+    if @order.invalid?
+      @today = Date.current.strftime('%-m月%d日')
+      @product = Product.where(product_status: "on_sale")
+      # @order = Order.new
+      # @order.order_details.build
+      render :new
+    end
   end
 
   def create
     @order = current_customer.orders.new(order_params)
-    @order.save
-    @order.products.each do |product|
-      @order.order_details.each do |detail|
-        if detail.product_id == product.id
-          product.update(max_quantity: product.max_quantity - detail.reservation_quantity)
+    # binding.pry
+    if @order.save
+      @order.products.each do |product|
+        @order.order_details.each do |detail|
+          if detail.product_id == product.id
+            product.update(max_quantity: product.max_quantity - detail.reservation_quantity)
+          end
         end
       end
+      redirect_to orders_thanks_path
+    else
+      @today = Date.current.strftime('%-m月%d日')
+      @product = Product.where(product_status: "on_sale")
+      @order = Order.new
+      @order.order_details.build
+      render :new
     end
-    # binding.pry
-    redirect_to orders_thanks_path
   end
 
   def edit
@@ -44,8 +57,12 @@ class Public::OrdersController < ApplicationController
   def update
     @order = Order.find(params[:id])
     # binding.pry
-    @order.update(order_params)
-    redirect_to my_page_path
+    if @order.update(order_params)
+      redirect_to my_page_path
+    else
+      @order_details = @order.order_details.all
+      render :edit
+    end
   end
 
   def cancel
@@ -59,13 +76,13 @@ class Public::OrdersController < ApplicationController
       end
     end
     @order.update(order_status: "cancel")
-    @order.products.each do |product|
-      @order.order_details.each do |detail|
-        if detail.product_id == product.id
-          product.update(max_quantity: product.max_quantity + detail.reservation_quantity)
-        end
-      end
-    end
+    # @order.products.each do |product|
+    #   @order.order_details.each do |detail|
+    #     if detail.product_id == product.id
+    #       product.update(max_quantity: product.max_quantity + detail.reservation_quantity)
+    #     end
+    #   end
+    # end
     redirect_to my_page_path
   end
 

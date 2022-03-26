@@ -3,6 +3,14 @@
     <div class="col-lg-12 px-5 mx-auto">
 
       <h2>商品一覧</h2>
+      <% if @product.errors.any? %>
+        <ul>
+        <% @product.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      <% end %>
+      
       <div>
         <%= form_with model: Product.new, url: admin_products_path, method: :post, local: true do |f| %>
         <div class="form-group row">

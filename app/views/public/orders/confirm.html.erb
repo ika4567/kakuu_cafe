@@ -14,7 +14,7 @@
             <%= number_to_currency(order_detail.product.price, precision: 0, format: "%u%n", unit: "￥") %>
           </p>
           <p class="col-3 offset-1 text-nowrap"><%= order_detail.reservation_quantity %>個</p>
-  
+
         </div>
         <% end %>
         <%= f.fields_for :order_details, local: true do |ff| %>
@@ -34,12 +34,17 @@
         <div class="row">
           <p>備考：<%= @order.note %></p>
         </div>
-        <div class="form-group text-center">
-          <%= f.hidden_field :order_system, value: @order.order_system %>
-          <%= f.hidden_field :time, value: @order.time %>
-          <%= f.hidden_field :note, value: @order.note %>
-          <%= f.submit "予約を確定する", class: "btn border-success" %>
-        </div>
+        <% if @order.order_details.present? %>
+          <div class="form-group text-center">
+            <%= f.hidden_field :order_system, value: @order.order_system %>
+            <%= f.hidden_field :time, value: @order.time %>
+            <%= f.hidden_field :note, value: @order.note %>
+            <%= f.submit "予約を確定する", class: "btn border-success" %>
+          </div>
+        <% else %>
+          <p class="text-danger">商品を１つ以上選択してください</p>
+          <%= link_to ">>予約画面へ戻る", new_order_path %>
+        <% end %>
       </div>
       <% end %>
     </div>
