@@ -5,10 +5,9 @@ class Public::OrdersController < ApplicationController
   end
 
   def new
-    @today = Date.current.strftime('%-m月%d日')
-    @product = Product.where(product_status: "on_sale")
+    @products = Product.where(product_status: "on_sale")
     @order = Order.new
-    @order.order_details.build
+    # @order.order_details.build
   end
 
   def confirm
@@ -18,34 +17,72 @@ class Public::OrdersController < ApplicationController
       end
     end
     @order = current_customer.orders.new(order_params)
-    # binding.pry
+    # # binding.pry
     if @order.invalid?
-      @today = Date.current.strftime('%-m月%d日')
-      @product = Product.where(product_status: "on_sale")
+      @products = Product.where(product_status: "on_sale")
       render :new
     end
   end
 
   def create
     @order = current_customer.orders.new(order_params)
-    # binding.pry
-    if @order.save
-      @order.products.each do |product|
-        @order.order_details.each do |detail|
-          if detail.product_id == product.id
-            product.update(max_quantity: product.max_quantity - detail.reservation_quantity)
-          end
-        end
-      end
-      redirect_to orders_thanks_path
-    else
-      @today = Date.current.strftime('%-m月%d日')
-      @product = Product.where(product_status: "on_sale")
-      @order = Order.new
-      @order.order_details.build
+    is_validates = @order.is_save_with_product(order_params[:order_details_attributes])
+
+    if is_validates.include?(false)
+      @products = Product.where(product_status: "on_sale")
       render :new
+    else
+      if @order.save!
+        reservation_quantities = @order.order_details.pluck(:reservation_quantity)
+        @order.products.each_with_index do |product, i|
+          product.update!(max_quantity: product.max_quantity - reservation_quantities[i])
+        end
+      redirect_to orders_thanks_path
+      else
+        @products = Product.where(product_status: "on_sale")
+        render :new
+      end
     end
   end
+
+  # def create
+  #   @order = current_customer.orders.new(order_params)
+
+  #   @order.transaction do
+  #     if @order.save!
+  #       reservation_quantities = @order.order_details.pluck(:reservation_quantity)
+  #       @order.products.each_with_index do |product, i|
+  #         if(product.max_quantity >= reservation_quantities[i])
+  #           product.update!(max_quantity: product.max_quantity - reservation_quantities[i])
+  #           redirect_to orders_thanks_path
+  #         else
+  #           @products = Product.where(product_status: "on_sale")
+  #           #redirect_to new_order_path
+  #           render :new
+  #           raise ActiveRecord::Rollback
+  #         end
+  #       end
+  #     # else
+  #     end
+  #   end
+  # rescue => e
+  #   puts e
+  # end
+
+    # if @order.save!
+    #   @order.products.each do |product|
+    #     @order.order_details.each do |detail|
+    #       if detail.product_id == product.id
+    #         product.update(max_quantity: product.max_quantity - detail.reservation_quantity)
+    #       end
+    #     end
+    #   end
+    #   redirect_to orders_thanks_path
+    # else
+    #   @product = Product.where(product_status: "on_sale")
+    #   render :new
+    # end
+  #end
 
   def edit
     @order = Order.find(params[:id])
@@ -64,7 +101,6 @@ class Public::OrdersController < ApplicationController
 
     if @order.update(order_params)
       order_detail_params.each do |order_detail_param|
-        # binding.pry
         product = Product.find(order_detail_param[1][:product_id])
         quantity = old_reservetion_quantity[order_detail_param[1][:id]] - order_detail_param[1][:reservation_quantity].to_i
         product.max_quantity += quantity
