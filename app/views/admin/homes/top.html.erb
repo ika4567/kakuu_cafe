@@ -7,8 +7,16 @@
       <div class="">
         <div class="col-lg-6">
           <div class="bg-light rounded-lg px-2 pt-2 mr-1">
-            <h4>予約受付中の商品</h4>
+            <div class="d-flex justify-content-between">
+              <h4>予約受付中の商品</h4>
+              <% if @products.exists? %>
+                <p><%= link_to "全商品の予約受付を停止", admin_products_discontinued_path, method: :patch, "data-confirm" => "全商品の予約受付を停止しますか？", class: "btn btn-sm btn-outline-danger mr-3" %></p>
+              <% else %>
+                <p><%= link_to "商品一覧へ", admin_products_path, class: "btn btn-sm btn-outline-info mr-3" %></p>
+              <% end %>
+            </div>
             <table class="table">
+              <% if @products.exists? %>
               <thead>
                 <tr>
                   <td class="text-center">商品名</td>
@@ -25,12 +33,16 @@
                 </tr>
                 <% end %>
               </tbody>
+              <% else %>
+                <p>※ 予約受付中の商品はありません ※</p>
+              <% end %>
             </table>
           </div>
         </div>
         <div class="overflow-auto col-lg-11">
           <h4><%= @today %>の予約一覧</h4>
           <table class="table">
+          <% if @orders.exists? %>
             <thead>
               <tr>
                 <td class="text-center col-2">予約者名</td>
@@ -63,6 +75,9 @@
               </tr>
               <% end %>
             </tbody>
+          <% else %>
+            <p>※ 本日の予約はまだありません ※</p>
+          <% end %>
           </table>
         </div>
       </div>

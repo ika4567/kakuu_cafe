@@ -1,6 +1,6 @@
 class Admin::ProductsController < ApplicationController
   before_action :authenticate_admin!
-  
+
   def index
     @products = Product.order("product_name")
     @product = Product.new
@@ -43,6 +43,11 @@ class Admin::ProductsController < ApplicationController
       @product.update(product_status: "discontinued")
     end
     redirect_to admin_products_path
+  end
+
+  def discontinued
+    Product.update_all(product_status: "discontinued")
+    redirect_to admin_root_path
   end
 
   def destroy

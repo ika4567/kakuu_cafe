@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    patch 'products/discontinued' => 'products#discontinued', as: 'products_discontinued'
     resources :products, only: [:new, :index, :create, :edit, :update, :destroy]
     patch 'products/:id/status' => 'products#status', as: 'products_status'
   end
