@@ -37,7 +37,7 @@ class Public::OrdersController < ApplicationController
         @order.products.each_with_index do |product, i|
           product.update!(max_quantity: product.max_quantity - reservation_quantities[i])
         end
-      redirect_to orders_thanks_path
+        redirect_to orders_thanks_path
       else
         @products = Product.where(product_status: "on_sale")
         render :new
@@ -91,25 +91,32 @@ class Public::OrdersController < ApplicationController
 
   def update
     @order = Order.find(params[:id])
-
-    old_reservetion_quantity = {}
-    order_detail_params = params[:order][:order_details_attributes]
-    order_detail_params.each do |order_detail_param|
-      order_detail = OrderDetail.find(order_detail_param[1][:id].to_i)
-      old_reservetion_quantity[order_detail_param[1][:id]] = order_detail.reservation_quantity.to_i
-    end
-
-    if @order.update(order_params)
-      order_detail_params.each do |order_detail_param|
-        product = Product.find(order_detail_param[1][:product_id])
-        quantity = old_reservetion_quantity[order_detail_param[1][:id]] - order_detail_param[1][:reservation_quantity].to_i
-        product.max_quantity += quantity
-        product.save
-      end
-      redirect_to my_page_path
-    else
+    is_validates = @order.is_save_with_product(order_params[:order_details_attributes])
+    
+    if is_validates.include?(false)
+      flash[:alert] = "売り切れの商品が含まれているため、変更処理ができませんでした。"
       @order_details = @order.order_details.all
       render :edit
+    else
+      old_reservetion_quantity = {}
+      order_detail_params = params[:order][:order_details_attributes]
+      order_detail_params.each do |order_detail_param|
+        order_detail = OrderDetail.find(order_detail_param[1][:id].to_i)
+        old_reservetion_quantity[order_detail_param[1][:id]] = order_detail.reservation_quantity.to_i
+      end
+  
+      if @order.update(order_params)
+        order_detail_params.each do |order_detail_param|
+          product = Product.find(order_detail_param[1][:product_id])
+          quantity = old_reservetion_quantity[order_detail_param[1][:id]] - order_detail_param[1][:reservation_quantity].to_i
+          product.max_quantity += quantity
+          product.save
+        end
+        redirect_to my_page_path
+      else
+        @order_details = @order.order_details.all
+        render :edit
+      end
     end
   end
 
