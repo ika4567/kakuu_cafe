@@ -4,6 +4,10 @@
 
       <h2>ログイン画面</h2>
 
+      <div class="text text-danger">
+        <%= flash[:alert] %>
+      </div>
+
       <%= form_with model: @customer, url: customer_session_path, local: true do |f| %>
         <div class="form-group row">
           <!--<= f.label :email %><br />-->
