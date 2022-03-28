@@ -113,6 +113,7 @@ class Public::OrdersController < ApplicationController
           product.max_quantity += quantity
           product.save
         end
+        flash[:success] = '予約内容を変更しました!!'
         redirect_to my_page_path
       else
         @order_details = @order.order_details.all
@@ -131,6 +132,7 @@ class Public::OrdersController < ApplicationController
       end
     end
     @order.update(order_status: "cancel")
+    flash[:cancel] = '予約をキャンセルしました'
     redirect_to my_page_path
   end
 
