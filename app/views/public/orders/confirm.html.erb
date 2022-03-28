@@ -1,54 +1,57 @@
 <div class="container">
   <div class="row">
-    <div class="col-lg-12 px-5 mx-auto">
-      <h2>予約内容確認</h2>
+    <div class="col-lg-10 px-5 mx-auto">
+
+      <p class="col-md-9 h2 bg-white">予約内容確認</p>
+
       <p class="text-danger">予約はまだ確定しておりません</p>
-      <%= form_with model: @order, url: orders_path, method: :post, local: true do |f| %>
-        <% @order.order_details.each do |order_detail| %>
-        <div class="row col-md-8">
-          <ul class="col-7">
-            <li>
-              <%= order_detail.product.product_name %>
-            </li>
-          </ul>
-          <p class="col-1">
-            <%= number_to_currency(order_detail.product.price, precision: 0, format: "%u%n", unit: "￥") %>
-          </p>
-          <p class="col-3 offset-1 text-nowrap"><%= order_detail.reservation_quantity %>個</p>
+      <div class="bg-white p-2 border-right border-bottom border-warning">
 
-        </div>
-        <% end %>
-        <%= f.fields_for :order_details, local: true do |ff| %>
-          <%= ff.hidden_field :order_id %>
-          <%= ff.hidden_field :product_id %>
-          <%= ff.hidden_field :reservation_quantity %>
-        <% end %>
-    </div>
+        <%= form_with model: @order, url: orders_path, method: :post, local: true do |f| %>
+          <% @order.order_details.each do |order_detail| %>
+            <div class="row col-md-8">
+              <ul class="col-7">
+                <li>
+                  <%= order_detail.product.product_name %>
+                </li>
+              </ul>
+              <p class="col-1">
+                <%= number_to_currency(order_detail.product.price, precision: 0, format: "%u%n", unit: "￥") %>
+              </p>
+              <p class="col-3 offset-1 text-nowrap"><%= order_detail.reservation_quantity %>個</p>
+            </div>
+          <% end %>
+          <%= f.fields_for :order_details, local: true do |ff| %>
+            <%= ff.hidden_field :order_id %>
+            <%= ff.hidden_field :product_id %>
+            <%= ff.hidden_field :reservation_quantity %>
+          <% end %>
 
-      <div class="col-md-8 offset-md-1">
-        <div class="row">
-          <p>予約形態：<%= @order.order_system_i18n %></p>
-        </div>
-        <div class="row">
-          <p>来店予定時間：<%= @order.time.strftime('%-m月%d日 %-H時%M分') %></p>
-        </div>
-        <div class="row">
-          <p>備考：<%= @order.note %></p>
-        </div>
-        <% if @order.order_details.present? %>
-          <div class="form-group text-center">
-            <%= f.hidden_field :order_system, value: @order.order_system %>
-            <%= f.hidden_field :time, value: @order.time %>
-            <%= f.hidden_field :note, value: @order.note %>
-            <%= link_to ">>予約画面へ戻る", new_order_path, class: "btn btn-outline-primary mr-3" %>
-            <%= f.submit "予約を確定する", class: "btn btn-outline-success" %>
+          <div class="col-md-8 offset-md-1">
+            <div class="row">
+              <p>予約形態：<%= @order.order_system_i18n %></p>
+            </div>
+            <div class="row">
+              <p>来店予定時間：<br class="d-md-none"><%= @order.time.strftime('%-m月%d日 %-H時%M分') %></p>
+            </div>
+            <div class="row">
+              <p>備考：<%= @order.note %></p>
+            </div>
+            <% if @order.order_details.present? %>
+              <div class="form-group text-center">
+                <%= f.hidden_field :order_system, value: @order.order_system %>
+                <%= f.hidden_field :time, value: @order.time %>
+                <%= f.hidden_field :note, value: @order.note %>
+                <%= link_to ">>予約画面へ戻る", new_order_path, class: "btn btn-outline-primary mr-3" %>
+                <%= f.submit "予約を確定する", class: "btn btn-outline-success" %>
+              </div>
+            <% else %>
+              <p class="text-danger">商品を１つ以上選択してください</p>
+              <%= link_to ">>予約画面へ戻る", new_order_path %>
+            <% end %>
           </div>
-        <% else %>
-          <p class="text-danger">商品を１つ以上選択してください</p>
-          <%= link_to ">>予約画面へ戻る", new_order_path %>
         <% end %>
       </div>
-      <% end %>
     </div>
   </div>
 </div>
