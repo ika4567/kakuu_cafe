@@ -12,7 +12,6 @@ class Admin::ProductsController < ApplicationController
 
   def create
     @product = Product.new(product_params)
-    # binding.pry
     if @product.save
       redirect_to admin_products_path
     else
@@ -36,7 +35,6 @@ class Admin::ProductsController < ApplicationController
 
   def status
     @product = Product.find(params[:id])
-    # binding.pry
     if @product.product_status == "discontinued"
       @product.update(product_status: "on_sale")
     elsif @product.product_status == "on_sale"
@@ -52,7 +50,6 @@ class Admin::ProductsController < ApplicationController
 
   def destroy
     product = Product.find(params[:id])
-    # binding.pry
     product.destroy
     redirect_to admin_products_path
   end

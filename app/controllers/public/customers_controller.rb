@@ -11,7 +11,6 @@ class Public::CustomersController < ApplicationController
   
   def update
     @customer = Customer.find(current_customer.id)
-    # binding.pry
     if @customer.update(customer_params)
       redirect_to my_page_path
     else

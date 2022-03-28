@@ -17,7 +17,6 @@ class Public::OrdersController < ApplicationController
       end
     end
     @order = current_customer.orders.new(order_params)
-    # # binding.pry
     if @order.invalid?
       @products = Product.where(product_status: "on_sale")
       render :new
@@ -44,6 +43,8 @@ class Public::OrdersController < ApplicationController
       end
     end
   end
+  
+  #上記でエラーが出た場合は以下のトランザクションを使用
 
   # def create
   #   @order = current_customer.orders.new(order_params)
@@ -122,7 +123,6 @@ class Public::OrdersController < ApplicationController
 
   def cancel
     @order = Order.find(params[:id])
-    # binding.pry
     @order.products.each do |product|
       @order.order_details.each do |detail|
         if detail.product_id == product.id
