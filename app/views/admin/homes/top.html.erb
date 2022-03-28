@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12 px-5 mx-auto">
+
+      <p class="col-md-5 h2 bg-white">予約情報</p>
+
+      <div class="">
+        <div class="col-lg-7">
+          <div class="bg-white rounded-lg border border-warning px-2 pt-2 mr-1 mb-4">
+            <div class="d-flex justify-content-between">
+              <h4 class= "mx-2">予約受付中の商品</h4>
+              <% if @products.exists? %>
+                <p><%= link_to "全商品の予約受付を停止", admin_products_discontinued_path, method: :patch, "data-confirm" => "全商品の予約受付を停止しますか？", class: "btn btn-sm btn-outline-danger mr-3" %></p>
+              <% else %>
+                <p><%= link_to "商品一覧へ", admin_products_path, class: "btn btn-sm btn-outline-info mr-3" %></p>
+              <% end %>
+            </div>
+            <table class="table">
+              <% if @products.exists? %>
+              <thead>
+                <tr>
+                  <td class="text-center">商品名</td>
+                  <td class="col-3 text-center">金額</td>
+                  <td class="col-4 text-center">残り個数</td>
+                </tr>
+              </thead>
+              <tbody>
+                <% @products.each do |product| %>
+                <tr>
+                  <td class="col-6"><%= product.product_name %></td>
+                  <td class="text-center"><%= product.price %>円</td>
+                  <td class="text-center"><%= product.max_quantity %>個</td>
+                </tr>
+                <% end %>
+              </tbody>
+              <% else %>
+                <p>※ 予約受付中の商品はありません ※</p>
+              <% end %>
+            </table>
+          </div>
+        </div>
+        <div class="overflow-auto col-lg-12 bg-white rounded-lg border border-warning pt-2 ml-3">
+        <p class="col-md-5 h4 bg-white"><%= @today %>の予約一覧</p>
+          <table class="table">
+          <% if @orders.exists? %>
+            <thead>
+              <tr>
+                <td class="text-center col-2">予約者名</td>
+                <td class="text-center col-4">商品名（個数）</td>
+                <td class="text-center col-2">予約形態</td>
+                <td class="text-center col-2">来店予定時間</td>
+                <td class="colspan-2">備考</td>
+                <td></td>
+              </tr>
+            </thead>
+            <tbody>
+              <% @orders.each do |order| %>
+              <tr>
+                <td class="text-center">
+                  <%= link_to order.customer.name, admin_customer_path(order.customer_id) %>
+                </td>
+                <td>
+                  <% order.order_details.each do |order_detail| %>
+                  <ul>
+                    <li>
+                      <%= order_detail.product.product_name %>（<%= order_detail.reservation_quantity %>）
+                    </li>
+                  </ul>
+                  <% end %>
+                </td>
+                <td class="text-center"><%= order.order_system_i18n %></td>
+                <td class="text-center"><%= order.time.strftime('%R') %></td>
+                <td><%= order.note %></td>
+                <td class="no-wrap">
+                  <% if order.order_status == "cancel" %>
+                    <%= order.order_status_i18n %>
+                  <% end %>
+                </td>
+              </tr>
+              <% end %>
+            </tbody>
+          <% else %>
+            <p>※ 本日の予約はまだありません ※</p>
+          <% end %>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

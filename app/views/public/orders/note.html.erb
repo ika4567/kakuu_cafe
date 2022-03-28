@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 px-5 mx-auto">
+
+      <p class="col-md-6 h2 bg-white">予約について</p>
+
+      <div class="d-md-flex justify-content-evenly align-items-center">
+        <div class="bg-white p-2 border-right border-bottom border-warning mb-3">
+          <p class="text-danger"><strong>予約の前にご一読ください。</strong></p>
+          <ul>
+          <li>
+            こちらの予約は商品の取り置き・テイクアウトの<br>
+            予約となっております。<br>
+            席の予約はできませんのでご注意ください。
+          </li>
+          <li>
+            ご予約の受付時間は10:00 ~ 17:00と<br>
+            させていただきます。
+          </li>
+          <li>
+            作れる数に限りがございますので、<br>
+            <strong>１つの商品につき２つまで</strong>とさせていただきます。
+          </li>
+          <li>
+            お支払いはご来店いただき、商品の受け渡し時に<br>
+            お願いいたします。<br>
+            また、営業時間内（10:00 ~ 18:00）のご来店を<br>
+            お願いいたします。
+          </li>
+          </ul>
+        </div>
+        <div class="col-md-5">
+          <% if (Time.current < Date.current + 17.hour) && (Time.current > Date.current + 10.hour) then %>
+            <%= link_to "ご予約はこちら", new_order_path, class: "btn btn-block btn-warning p-3" %>
+          <% else %>
+            <%= link_to "ご予約はこちら", new_order_path, class: "btn btn-block btn-outline-warning p-3 disabled" %>
+            <p class="text-danger text-right">受付時間外です</p>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

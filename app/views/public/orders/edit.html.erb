@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-10 px-5 mx-auto">
+      <p class="col-md-9 h2 bg-white">予約の変更・キャンセル</p>
+
+      <div class="text text-danger">
+        <%= flash[:alert] %>
+      </div>
+
+      <% if @order.errors.any? %>
+        <ul>
+        <% @order.errors.full_messages.each do |message| %>
+          <li class="text text-danger"><%= message %></li>
+        <% end %>
+        </ul>
+      <% end %>
+
+      <div class="bg-white p-3 border-right border-bottom border-warning">
+        <%= form_with model: @order, method: :patch, url: order_path, local: true do |f| %>
+          <div class="row col-md-8">
+            <%= f.fields_for :order_details, local: true do |ff| %>
+            <ul class="col-7">
+              <li>
+                <%= ff.object.product.product_name %>
+              </li>
+            </ul>
+            <p class="col-1">
+              <%= number_to_currency(ff.object.product.price, precision: 0, format: "%u%n", unit: "￥") %>
+            </p>
+            <div class="col-3 offset-1 text-nowrap">
+              <%= ff.hidden_field :id %>
+              <%= ff.hidden_field :order_id %>
+              <%= ff.hidden_field :product_id %>
+              <%= ff.select :reservation_quantity, *[0..2] %>個
+            </div>
+            <% end %>
+          </div>
+
+          <div>
+            <div class="form-group form-inline row">
+              <%= f.label :order_system, "予約形態：", class: "col-form-label col-md-3" %>
+              <div class="form-check form-check-inline">
+                <%= f.radio_button :order_system, Order.order_systems.key(0), checked: true, class:"form-check-input" %>
+                <%= f.label :order_system_layaway, Order.order_systems_i18n[:layaway], class:"form-check-label" %>
+              </div>
+              <div class="form-check form-check-inline ml-sm-3">
+                <%= f.radio_button :order_system, Order.order_systems.key(1), class:"form-check-input" %>
+                <%= f.label :order_system_take_out, Order.order_systems_i18n[:take_out], class:"form-check-label" %>
+              </div>
+            </div>
+            <div class="form-group form-inline row">
+              <%= f.label :time, "来店予定時間：", class: "col-form-label col-md-3" %>
+              <%= @order.date_today %>
+              <%= f.time_select :time, class: 'form-control' %>
+            </div>
+            <div class="form-group form-inline row">
+              <%= f.label :note, "備考：", class: "col-form-label col-md-3" %>
+              <%= f.text_field :note, class: 'form-control col-md-5' %>
+            </div>
+            <div class="form-group text-center">
+              <%= f.submit "予約内容を変更する", "data-confirm" => "予約内容を変更しますか？", class: "btn btn-outline-success mb-2" %>
+              <%= link_to "予約をキャンセルする", orders_cancel_path, method: :patch, "data-confirm" => "予約をキャンセルしますか？", class: "btn btn-outline-danger mb-2" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
