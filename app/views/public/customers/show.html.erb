@@ -2,32 +2,36 @@
   <div class="row">
     <div class="col-lg-12 px-5 mx-auto">
 
-      <h2>My Page</h2>
-      <div class="mb-3">
-        <div class="row">
-          <p class="col-md-4 text-md-right">名前：</p>
-          <p class="col-md-5"><%= current_customer.name %></p>
-        </div>
-        <div class="row">
-          <p class="col-md-4 text-md-right">電話番号：</p>
-          <p class="col-md-5"><%= current_customer.telephone_number %></p>
-        </div>
-        <div class="row">
-          <p class="col-md-4 text-md-right">メールアドレス：</p>
-          <p class="col-md-5"><%= current_customer.email %></p>
-        </div>
-        <div class="row">
-          <%= link_to "登録内容を編集する", edit_customers_path(current_customer), class: "btn btn-success mr-1" %>
+      <p class="col-md-3 h2 bg-white">My Page</p>
+      <div class="col-md-6 m-3 mb-4">
+          <table class="mb-3">
+            <tbody>
+              <tr>
+                <th>名前：</th>
+                <td><%= current_customer.name %></td>
+              </tr>
+              <tr>
+                <th>電話番号：</th>
+                <td><%= current_customer.telephone_number %></td>
+              </tr>
+              <tr>
+                <th>メールアドレス：</th>
+                <td><%= current_customer.email %></td>
+              </tr>
+            </tbody>
+          </table>
+        <div>
+          <%= link_to "登録内容を編集する", edit_customers_path(current_customer), class: "btn btn-success" %>
         </div>
       </div>
+
       <div>
-        <h3>予約履歴（最新10件）</h3>
-        <table class="table">
+        <p class="col-md-6 h4 bg-white">予約履歴<br class="d-md-none">（最新10件）</p>
+        <table class="table bg-white p-2 border-right border-bottom border-warning">
           <thead>
             <tr>
               <th class="col-2 text-center">予約日時</th>
-              <th class="col-3 text-center">予約商品</th>
-              <th class="col-1 text-center">個数</th>
+              <th class="col-4 text-center">予約商品（個数）</th>
               <th class="col-2 text-center">予約形態</th>
               <th class="col-2 text-center">来店予定時刻<br>(テイクアウトのみ)</th>
               <th class="col-2">備考</th>
@@ -40,24 +44,14 @@
                 <%= order.created_at.strftime('%Y/%m/%d %R') %><br>
                 <!--予約した当日中のみ表示させる-->
                 <% if (Time.current < Date.current + 23.hour) && (order.created_at < Time.current.end_of_day) && (Time.current.beginning_of_day < order.created_at) then %>
-                <!--if 今の日時 < date_time(予約日+ ’17:00) && created_at < Time.current.end_of_date then-->
                   <%= link_to "変更・キャンセル", edit_order_path(order) %>
                 <% end %>
               </td>
-              <td class="col-3">
+              <td class="col-3 text-nowrap">
                 <ul>
                 <% order.order_details.each do |order_detail| %>
                   <li>
-                    <%= order_detail.product.product_name %>
-                  </li>
-                <% end %>
-                </ul>
-              </td>
-              <td class="col-1 text-center">
-                <ul>
-                <% order.order_details.each do |order_detail| %>
-                  <li class="list-unstyled">
-                    <%= order_detail.reservation_quantity %>
+                    <%= order_detail.product.product_name %>（<%= order_detail.reservation_quantity %>）
                   </li>
                 <% end %>
                 </ul>

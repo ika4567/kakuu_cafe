@@ -1,11 +1,11 @@
 <div class="container">
   <div class="row">
-    <div class="col-lg-12 px-5 mx-auto">
+    <div class="col-lg-10 px-5 mx-auto">
 
-      <h2>予約について</h2>
+      <p class="col-md-6 h2 bg-white">予約について</p>
 
-      <div class="d-md-flex align-items-center">
-        <div>
+      <div class="d-md-flex justify-content-evenly align-items-center">
+        <div class="bg-white p-2 border-right border-bottom border-warning mb-3">
           <p class="text-danger"><strong>予約の前にご一読ください。</strong></p>
           <ul>
           <li>
@@ -29,11 +29,11 @@
           </li>
           </ul>
         </div>
-        <div class="col-md-5 offset-md-1">
+        <div class="col-md-5">
           <% if (Time.current < Date.current + 17.hour) && (Time.current > Date.current + 10.hour) then %>
-            <%= link_to "ご予約はこちら", new_order_path, class: "btn btn-block border rounded-lg p-3" %>
+            <%= link_to "ご予約はこちら", new_order_path, class: "btn btn-block btn-warning p-3" %>
           <% else %>
-            <%= link_to "ご予約はこちら", new_order_path, class: "btn btn-block border rounded-lg p-3 disabled" %>
+            <%= link_to "ご予約はこちら", new_order_path, class: "btn btn-block btn-outline-warning p-3 disabled" %>
             <p class="text-danger text-right">受付時間外です</p>
           <% end %>
         </div>
