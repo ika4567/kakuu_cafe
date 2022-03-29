@@ -5,7 +5,7 @@ class Order < ApplicationRecord
   accepts_nested_attributes_for :order_details, allow_destroy: true
 
   validates_associated :order_details
-  validate :validate_time_check_current, on: :create
+  # validate :validate_time_check_current, on: :create
   validate :validate_time_check_last
 
   def validate_time_check_current
@@ -16,7 +16,7 @@ class Order < ApplicationRecord
 
   def validate_time_check_last
     if self.time.strftime("%H:%M") > "18:00"
-      errors.add(:time, "は現時刻から18時までの時間を選択してください")
+      errors.add(:time, "は18時までの時間を選択してください")
     end
   end
 

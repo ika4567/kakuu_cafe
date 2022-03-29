@@ -30,12 +30,12 @@
           </ul>
         </div>
         <div class="col-md-5">
-          <% if (Time.current < Date.current + 17.hour) && (Time.current > Date.current + 10.hour) then %>
+          <%# if (Time.current < Date.current + 17.hour) && (Time.current > Date.current + 10.hour) then %>
             <%= link_to "ご予約はこちら", new_order_path, class: "btn btn-block btn-warning p-3" %>
-          <% else %>
-            <%= link_to "ご予約はこちら", new_order_path, class: "btn btn-block btn-outline-warning p-3 disabled" %>
-            <p class="text-danger text-right">受付時間外です</p>
-          <% end %>
+          <%# else %>
+            <%#= link_to "ご予約はこちら", new_order_path, class: "btn btn-block btn-outline-warning p-3 disabled" %>
+            <!--<p class="text-danger text-right">受付時間外です</p>-->
+          <%# end %>
         </div>
       </div>
     </div>
