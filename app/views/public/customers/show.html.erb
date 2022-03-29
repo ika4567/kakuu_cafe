@@ -50,9 +50,9 @@
               <td class="col-2 text-center">
                 <%= order.created_at.strftime('%Y/%m/%d %R') %><br>
                 <!--予約した当日中のみ表示させる-->
-                <%# if (Time.current < Date.current + 17.hour) && (order.created_at < Time.current.end_of_day) && (Time.current.beginning_of_day < order.created_at) then %>
+                <% if (Time.current < Date.current + 17.hour) && (order.created_at < Time.current.end_of_day) && (Time.current.beginning_of_day < order.created_at) then %>
                   <%= link_to "変更・キャンセル", edit_order_path(order) %>
-                <%# end %>
+                <% end %>
               </td>
               <td class="col-3 text-nowrap">
                 <ul>

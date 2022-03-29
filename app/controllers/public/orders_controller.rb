@@ -104,8 +104,7 @@ class Public::OrdersController < ApplicationController
         order_detail_params.each do |order_detail_param|
           product = Product.find(order_detail_param[1][:product_id])
           if old_reservetion_quantity[order_detail_param[1][:id]] != order_detail_param[1][:reservation_quantity].to_i
-            @under_max_quantity = (product.max_quantity >= order_detail_param[1][:reservation_quantity].to_i)
-            if @under_max_quantity
+            if product.max_quantity >= order_detail_param[1][:reservation_quantity].to_i
               quantity = old_reservetion_quantity[order_detail_param[1][:id]] - order_detail_param[1][:reservation_quantity].to_i
               product.max_quantity += quantity
               product.save!
@@ -119,9 +118,7 @@ class Public::OrdersController < ApplicationController
     end
   rescue => e
     puts e
-    if !@under_max_quantity
-      flash[:alert] = "ご希望の数量をご用意できない商品が含まれているため、変更処理ができませんでした。"
-    end
+    flash[:alert] = "ご希望の数量をご用意できない商品が含まれているため、変更処理ができませんでした。"
     @order_details = @order.order_details.all
     render :edit
   end
