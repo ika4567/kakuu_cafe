@@ -67,7 +67,7 @@
               <% if @products.where("max_quantity > ?", 0).exists? %>
                 <%= f.submit "予約内容を確認する", class: "btn btn-outline-primary" %>
               <% else %>
-                <p class="text-danger">申し訳ございません。商品が売り切れのためご予約できません。</p>
+                <p class="text-danger">申し訳ございません。ただ今ご予約できる商品がございません。</p>
               <% end %>
             </div>
           </div>
