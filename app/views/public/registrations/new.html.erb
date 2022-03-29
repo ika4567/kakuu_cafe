@@ -1,10 +1,10 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-7 col-lg-6 px-5 mx-auto text-center">
-      <p class="h2 bg-white">新規登録</p>
+    <div class="col-md-7 col-lg-6 h-auto px-5 mx-auto text-center bg-white border border-warning rounded-lg">
+      <p class="h2 mt-3">新規登録</p>
       <p class="text-nowrap">※商品の予約には登録が必要です。</p>
 
-      <div class="bg-white m-md-3">
+      <div class="m-md-3">
         <%= form_with model: @customer, url: customer_registration_path, local: true do |f| %>
           <%= render "public/shared/error_messages", resource: resource %>
           <div class="form-group row">

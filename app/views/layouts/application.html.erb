@@ -12,12 +12,12 @@
 
   <body>
     <header>
-      <nav class="navbar navbar-expand-lg navbar-light border border-bottom-1px">
+      <nav class="navbar navbar-expand-lg navbar-light border border-bottom-1px mb-1">
         <div class="container">
               <% if admin_signed_in? %>
-                <p class="navbar-brand"><%= link_to "Kakuu Cafe", admin_root_path, class:"text-dark" %></p>
+                <strong class="navbar-brand my-1"><%= link_to "Kakuu Cafe", admin_root_path, class:"text-dark" %></strong>
               <% else %>
-                <p class="navbar-brand"><%= link_to "Kakuu Cafe", root_path, class:"text-dark" %></p>
+                <strong class="navbar-brand my-1"><%= link_to "Kakuu Cafe", root_path, class:"text-dark" %></strong>
               <% end %>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -46,7 +46,7 @@
       </nav>
     </header>
 
-    <div class="py-5">
+    <div class="py-5" style="height:700px;">
       <%= yield %>
     </div>
 
