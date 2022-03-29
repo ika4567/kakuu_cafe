@@ -29,6 +29,7 @@ class Public::OrdersController < ApplicationController
 
     if is_validates.include?(false)
       @products = Product.where(product_status: "on_sale")
+      flash[:alert] = "売り切れ、もしくはご希望の数量をご用意できない商品が含まれているため、予約できませんでした。"
       render :new
     else
       if @order.save!
@@ -43,7 +44,7 @@ class Public::OrdersController < ApplicationController
       end
     end
   end
-  
+
   #上記でエラーが出た場合は以下のトランザクションを使用
 
   # def create
@@ -92,34 +93,37 @@ class Public::OrdersController < ApplicationController
 
   def update
     @order = Order.find(params[:id])
-    is_validates = @order.is_save_with_product(order_params[:order_details_attributes])
-    
-    if is_validates.include?(false)
-      flash[:alert] = "売り切れの商品が含まれているため、変更処理ができませんでした。"
-      @order_details = @order.order_details.all
-      render :edit
-    else
-      old_reservetion_quantity = {}
-      order_detail_params = params[:order][:order_details_attributes]
-      order_detail_params.each do |order_detail_param|
-        order_detail = OrderDetail.find(order_detail_param[1][:id].to_i)
-        old_reservetion_quantity[order_detail_param[1][:id]] = order_detail.reservation_quantity.to_i
-      end
-  
-      if @order.update(order_params)
+    old_reservetion_quantity = {}
+    order_detail_params = params[:order][:order_details_attributes]
+    order_detail_params.each do |order_detail_param|
+      order_detail = OrderDetail.find(order_detail_param[1][:id].to_i)
+      old_reservetion_quantity[order_detail_param[1][:id]] = order_detail.reservation_quantity.to_i
+    end
+    @order.transaction do
+      if @order.update!(order_params)
         order_detail_params.each do |order_detail_param|
           product = Product.find(order_detail_param[1][:product_id])
-          quantity = old_reservetion_quantity[order_detail_param[1][:id]] - order_detail_param[1][:reservation_quantity].to_i
-          product.max_quantity += quantity
-          product.save
+          if old_reservetion_quantity[order_detail_param[1][:id]] != order_detail_param[1][:reservation_quantity].to_i
+            @under_max_quantity = (product.max_quantity >= order_detail_param[1][:reservation_quantity].to_i)
+            if @under_max_quantity
+              quantity = old_reservetion_quantity[order_detail_param[1][:id]] - order_detail_param[1][:reservation_quantity].to_i
+              product.max_quantity += quantity
+              product.save!
+            end
+          else
+          end
         end
         flash[:success] = '予約内容を変更しました!!'
         redirect_to my_page_path
-      else
-        @order_details = @order.order_details.all
-        render :edit
       end
     end
+  rescue => e
+    puts e
+    if !@under_max_quantity
+      flash[:alert] = "ご希望の数量をご用意できない商品が含まれているため、変更処理ができませんでした。"
+    end
+    @order_details = @order.order_details.all
+    render :edit
   end
 
   def cancel

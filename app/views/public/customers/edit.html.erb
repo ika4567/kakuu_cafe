@@ -4,11 +4,9 @@
 
       <p class="col-md-6 h2 bg-white">登録内容編集</p>
       <% if @customer.errors.any? %>
-        <ul>
         <% @customer.errors.full_messages.each do |message| %>
-          <li class="text text-danger"><%= message %></li>
+          <p class="text text-danger"><%= message %></>
         <% end %>
-        </ul>
       <% end %>
 
       <div class="col-md-7 bg-white px-4 pt-md-3 border-right border-bottom border-warning">
