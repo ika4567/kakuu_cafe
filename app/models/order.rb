@@ -5,7 +5,7 @@ class Order < ApplicationRecord
   accepts_nested_attributes_for :order_details, allow_destroy: true
 
   validates_associated :order_details
-  # validate :validate_time_check_current, on: :create
+  validate :validate_time_check_current, on: :create
   validate :validate_time_check_last
 
   def validate_time_check_current
