@@ -7,7 +7,6 @@ class Public::OrdersController < ApplicationController
   def new
     @products = Product.where(product_status: "on_sale")
     @order = Order.new
-    # @order.order_details.build
   end
 
   def confirm
@@ -45,47 +44,6 @@ class Public::OrdersController < ApplicationController
     end
   end
 
-  #上記でエラーが出た場合は以下のトランザクションを使用
-
-  # def create
-  #   @order = current_customer.orders.new(order_params)
-
-  #   @order.transaction do
-  #     if @order.save!
-  #       reservation_quantities = @order.order_details.pluck(:reservation_quantity)
-  #       @order.products.each_with_index do |product, i|
-  #         if(product.max_quantity >= reservation_quantities[i])
-  #           product.update!(max_quantity: product.max_quantity - reservation_quantities[i])
-  #           redirect_to orders_thanks_path
-  #         else
-  #           @products = Product.where(product_status: "on_sale")
-  #           #redirect_to new_order_path
-  #           render :new
-  #           raise ActiveRecord::Rollback
-  #         end
-  #       end
-  #     # else
-  #     end
-  #   end
-  # rescue => e
-  #   puts e
-  # end
-
-    # if @order.save!
-    #   @order.products.each do |product|
-    #     @order.order_details.each do |detail|
-    #       if detail.product_id == product.id
-    #         product.update(max_quantity: product.max_quantity - detail.reservation_quantity)
-    #       end
-    #     end
-    #   end
-    #   redirect_to orders_thanks_path
-    # else
-    #   @product = Product.where(product_status: "on_sale")
-    #   render :new
-    # end
-  #end
-
   def edit
     @order = Order.find(params[:id])
     @order_details = @order.order_details.all
@@ -109,7 +67,6 @@ class Public::OrdersController < ApplicationController
               product.max_quantity += quantity
               product.save!
             end
-          else
           end
         end
         flash[:success] = '予約内容を変更しました!!'
