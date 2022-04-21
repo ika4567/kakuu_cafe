@@ -26,11 +26,7 @@ class Order < ApplicationRecord
       product_id = detail[1][:product_id].to_i
       reservation_quantity = detail[1][:reservation_quantity].to_i
       product = Product.find(product_id)
-      if product.max_quantity >= reservation_quantity
-        is_validates.push(true)
-      else
-        is_validates.push(false)
-      end
+      is_validates.push(product.max_quantity >= reservation_quantity)
     end
     return is_validates
   end
